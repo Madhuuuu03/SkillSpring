@@ -1,0 +1,27 @@
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# SQLite databases & backups (local development only, excluded from version control)
+*.db
+*.db.bak
+*.bak
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Python bytecode & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# Scratch scripts & logs
+scratch/
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db

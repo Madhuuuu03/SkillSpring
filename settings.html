@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Settings - SkillSpring</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234F46E5'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <span class="brand-logo-icon">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </span>
+          <span>SkillSpring</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Career Navigation</div>
+        <a href="dashboard.html" class="sidebar-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="careers.html" class="sidebar-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span>Career Explorer</span>
+        </a>
+        <a href="skill-gap.html" class="sidebar-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <span>Skill Gap Analysis</span>
+        </a>
+        <a href="roadmap.html" class="sidebar-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          <span>Learning Roadmap</span>
+        </a>
+        <a href="recommendations.html" class="sidebar-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span>AI Recommendations</span>
+        </a>
+        <a href="progress.html" class="sidebar-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Progress Tracker</span>
+        </a>
+
+        <div class="nav-section-title">Account</div>
+        <a href="profile.html" class="sidebar-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <span>Student Profile</span>
+        </a>
+        <a href="settings.html" class="sidebar-item active">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="user-avatar sync-user-avatar">AS</div>
+          <div class="user-info">
+            <div class="user-name sync-user-name">Aarav Sharma</div>
+            <div class="user-role sync-user-role">Python Developer</div>
+          </div>
+          <button type="button" onclick="demoLogout()" title="Log out" style="color:var(--text-muted); padding:0.25rem;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <header class="app-header">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <button class="sidebar-toggle-btn btn btn-icon-only btn-outline" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div>
+            <h2 style="font-size:1.15rem; font-weight:700;">Account & Preferences</h2>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="user-avatar sm sync-user-avatar">AS</div>
+        </div>
+      </header>
+
+      <main class="app-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-header-title">Settings & Preferences</h1>
+            <p class="page-header-desc">
+              Manage your profile details, career priorities, learning pacing, and demo environment options.
+            </p>
+          </div>
+        </div>
+
+        <div class="settings-layout">
+          <!-- Left Navigation Tabs -->
+          <div class="card" style="padding: 0.75rem;">
+            <button type="button" class="sidebar-item settings-tab-btn active" data-target="section-profile" style="width:100%; border:none;">
+              <span>👤 Profile Details</span>
+            </button>
+            <button type="button" class="sidebar-item settings-tab-btn" data-target="section-career" style="width:100%; border:none;">
+              <span>🎯 Career Preferences</span>
+            </button>
+            <button type="button" class="sidebar-item settings-tab-btn" data-target="section-goals" style="width:100%; border:none;">
+              <span>⏱️ Learning Goals</span>
+            </button>
+            <button type="button" class="sidebar-item settings-tab-btn" data-target="section-notifs" style="width:100%; border:none;">
+              <span>🔔 Notifications</span>
+            </button>
+            <button type="button" class="sidebar-item settings-tab-btn" data-target="section-data" style="width:100%; border:none;">
+              <span>⚙️ Demo Data & Reset</span>
+            </button>
+          </div>
+
+          <!-- Right Content Sections -->
+          <div>
+            <!-- Section 1: Profile Details -->
+            <div id="section-profile" class="settings-section-pane active card" style="margin-bottom:1.5rem;">
+              <div class="card-header">
+                <h3 class="card-title">Student Personal Information</h3>
+              </div>
+              <form id="settings-profile-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="settings-fullname">Full Name</label>
+                    <input type="text" id="settings-fullname" class="form-input" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="settings-email">Student Email</label>
+                    <input type="email" id="settings-email" class="form-input" required>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="settings-college">College / University</label>
+                    <input type="text" id="settings-college" class="form-input" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="settings-branch">Engineering Branch</label>
+                    <input type="text" id="settings-branch" class="form-input" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="settings-year">Current Academic Year</label>
+                  <select id="settings-year" class="form-select">
+                    <option value="1st Year (Class of 2029)">1st Year (Class of 2029)</option>
+                    <option value="2nd Year (Class of 2028)">2nd Year (Class of 2028)</option>
+                    <option value="3rd Year (Class of 2027)">3rd Year (Class of 2027)</option>
+                    <option value="4th Year (Class of 2026)">4th Year (Class of 2026)</option>
+                  </select>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; margin-top:1rem;">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Profile Changes</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Section 2: Career Preferences -->
+            <div id="section-career" class="settings-section-pane card" style="display:none; margin-bottom:1.5rem;">
+              <div class="card-header">
+                <h3 class="card-title">Career Track Preferences</h3>
+              </div>
+              <form id="settings-career-form">
+                <div class="form-group">
+                  <label class="form-label" for="settings-career-goal">Target Engineering Track</label>
+                  <select id="settings-career-goal" class="form-select">
+                    <option value="python-dev">Python Developer (Backend & APIs)</option>
+                    <option value="web-dev">Web Developer (Full Stack React & Node)</option>
+                    <option value="data-analyst">Data Analyst (SQL, Python & BI)</option>
+                    <option value="cloud-devops">Cloud & DevOps Engineer</option>
+                  </select>
+                </div>
+
+                <div class="alert alert-info">
+                  Switching your target track will immediately update your Skill Gap Analysis, Active Dashboard metrics, and Learning Roadmaps.
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; margin-top:1rem;">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Career Preference</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Section 3: Learning Goals -->
+            <div id="section-goals" class="settings-section-pane card" style="display:none; margin-bottom:1.5rem;">
+              <div class="card-header">
+                <h3 class="card-title">Study Schedule & Pacing Goals</h3>
+              </div>
+              <form id="settings-goals-form">
+                <div class="form-group">
+                  <label class="form-label" for="settings-weekly-hours">Weekly Study Hours Target</label>
+                  <input type="number" id="settings-weekly-hours" min="4" max="40" class="form-input" style="max-width:200px;">
+                  <span class="text-xs text-muted" style="margin-top:0.25rem;">Used to pace weekly roadmap milestones</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="settings-daily-target">Target Project Commits per Week</label>
+                  <input type="number" id="settings-daily-target" min="1" max="10" class="form-input" value="3" style="max-width:200px;">
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; margin-top:1rem;">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Learning Goals</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Section 4: Notifications -->
+            <div id="section-notifs" class="settings-section-pane card" style="display:none; margin-bottom:1.5rem;">
+              <div class="card-header">
+                <h3 class="card-title">Notification Preferences</h3>
+              </div>
+              <form id="settings-notif-form">
+                <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:1.5rem;">
+                  <label class="form-check">
+                    <input type="checkbox" checked>
+                    <div>
+                      <strong>Weekly Roadmap Digest</strong>
+                      <div class="text-xs text-muted">Receive email summary of upcoming tasks on Monday mornings</div>
+                    </div>
+                  </label>
+
+                  <label class="form-check">
+                    <input type="checkbox" checked>
+                    <div>
+                      <strong>Skill Gap Milestone Alerts</strong>
+                      <div class="text-xs text-muted">Get notified when you cross 80% readiness threshold for your target role</div>
+                    </div>
+                  </label>
+
+                  <label class="form-check">
+                    <input type="checkbox" checked>
+                    <div>
+                      <strong>Daily Study Streak Reminders</strong>
+                      <div class="text-xs text-muted">A gentle reminder if no progress has been logged for 48 hours</div>
+                    </div>
+                  </label>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end;">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Notifications</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Section 5: Demo Data & Reset -->
+            <div id="section-data" class="settings-section-pane card" style="display:none; margin-bottom:1.5rem;">
+              <div class="card-header">
+                <h3 class="card-title">Frontend Demo Environment</h3>
+              </div>
+              <p class="text-sm text-muted" style="margin-bottom:1.25rem; line-height:1.6;">
+                SkillSpring uses temporary browser <code>localStorage</code> to simulate live task completion, skill edits, and career tracking without storing any sensitive user credentials.
+              </p>
+
+              <div style="padding:1.25rem; background:var(--bg-card-subtle); border-radius:var(--radius-md); border:1px solid var(--border-light); margin-bottom:1.5rem;">
+                <h4 style="font-size:0.95rem; margin-bottom:0.35rem;">Reset Demo State</h4>
+                <p class="text-xs text-muted" style="margin-bottom:1rem;">
+                  Reset all roadmap checkboxes, task completions, and custom skills back to the default factory state.
+                </p>
+                <button type="button" id="reset-demo-data-btn" class="btn btn-danger btn-sm">
+                  Reset Demo Data to Default
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/store.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

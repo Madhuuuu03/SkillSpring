@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSpring - AI-Powered Career & Skill Roadmap Platform for College Students</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234F46E5'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </span>
+        <span>SkillSpring</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#benefits" class="nav-link">Benefits</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+        <a href="signup.html" class="btn btn-primary btn-sm">Get Started Free</a>
+        <button class="nav-toggle-btn" aria-label="Toggle navigation menu">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-menu" id="mobile-nav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#how-it-works" class="nav-link">How It Works</a>
+    <a href="#benefits" class="nav-link">Benefits</a>
+    <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem;">
+      <a href="login.html" class="btn btn-outline" style="width:100%;">Login</a>
+      <a href="signup.html" class="btn btn-primary" style="width:100%;">Get Started Free</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-pill">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        <span>Engineered specifically for undergraduate & postgraduate engineers</span>
+      </div>
+
+      <h1 class="hero-title">
+        Bridging the gap between <span>College Syllabus</span> and <span>Industry Readiness</span>.
+      </h1>
+
+      <p class="hero-subtitle">
+        SkillSpring analyzes your current academic coursework, identifies exact skill gaps for high-growth tech roles, and generates verified, week-by-week roadmaps with real projects.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="signup.html" class="btn btn-primary btn-lg">
+          Start Your Free Roadmap
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </a>
+        <a href="dashboard.html" class="btn btn-outline btn-lg">
+          Explore Live Demo App
+        </a>
+      </div>
+
+      <!-- Dashboard Interactive Preview Mockup -->
+      <div class="dashboard-preview-container">
+        <div class="dashboard-preview-inner">
+          <!-- Mock window title bar -->
+          <div style="padding: 0.75rem 1.25rem; background:#FFFFFF; border-bottom: 1px solid var(--border-light); display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; gap:0.4rem;">
+              <span style="width:10px; height:10px; border-radius:50%; background:#EF4444;"></span>
+              <span style="width:10px; height:10px; border-radius:50%; background:#F59E0B;"></span>
+              <span style="width:10px; height:10px; border-radius:50%; background:#10B981;"></span>
+            </div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:500;">app.skillspring.io/dashboard</div>
+            <span class="badge badge-indigo">Live Platform Preview</span>
+          </div>
+
+          <div style="padding: 1.5rem; background: var(--bg-main);">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1.25rem;">
+              <div class="stat-card" style="padding:1rem;">
+                <div>
+                  <div class="stat-label">Target Role</div>
+                  <div style="font-size:1.15rem; font-weight:700; color:var(--text-main);">Python Developer</div>
+                </div>
+                <div class="stat-icon indigo" style="width:36px; height:36px;">⚡</div>
+              </div>
+              <div class="stat-card" style="padding:1rem;">
+                <div>
+                  <div class="stat-label">Skill Match Score</div>
+                  <div style="font-size:1.15rem; font-weight:700; color:var(--primary);">78% Matched</div>
+                </div>
+                <div class="stat-icon emerald" style="width:36px; height:36px;">✓</div>
+              </div>
+              <div class="stat-card" style="padding:1rem;">
+                <div>
+                  <div class="stat-label">Milestones Completed</div>
+                  <div style="font-size:1.15rem; font-weight:700; color:var(--text-main);">4 / 18 Checkpoints</div>
+                </div>
+                <div class="stat-icon sky" style="width:36px; height:36px;">📊</div>
+              </div>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="card" style="padding:1.25rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                <h4 style="font-size:1rem; font-weight:600;">Active Sprint: Week 3 - PostgreSQL & ORM Architecture</h4>
+                <span class="badge badge-emerald">In Progress</span>
+              </div>
+              <div class="progress-track" style="height:6px; margin-bottom:1rem;">
+                <div class="progress-fill" style="width:55%;"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8125rem;">
+                <span class="text-muted">Deliverable: Campus Course Enrollment Database</span>
+                <a href="roadmap.html" class="btn btn-outline-primary btn-sm" style="padding:0.25rem 0.6rem;">Open Roadmap →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+      <div class="section-head">
+        <div class="section-tag">Platform Features</div>
+        <h2 class="section-title">Built with precision for college career success</h2>
+        <p class="section-subtitle">
+          Traditional college curriculums lag behind modern industry demands. SkillSpring gives you the exact blueprint tech recruiters look for.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <h3>Accurate Skill Gap Analysis</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem; line-height:1.6;">
+            Contrast your existing university coursework with actual job descriptions across software engineering, web development, and data science.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3>Ordered Weekly Roadmaps</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem; line-height:1.6;">
+            No generic tutorials. Receive structured, sequential milestones matched to your weekly available hours and graduation semester.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+          </div>
+          <h3>Portfolio Project Blueprints</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem; line-height:1.6;">
+            Replace generic todo-list clones with production-ready capstones featuring authentication, testing, containerization, and clean docs.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3>AI Career Intelligence</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem; line-height:1.6;">
+            Get personalized heuristic insights into where hiring markets are expanding and which frameworks provide maximum placement leverage.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3>Visual Progress Analytics</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem; line-height:1.6;">
+            Maintain daily study streaks, monitor verified skill completions, and track your readiness percentage before campus placements open.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3>Targeted Career Explorer</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem; line-height:1.6;">
+            Explore role requirements for Python Backend, Web Engineering, Data Analytics, and DevOps with real salary benchmarks.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works-section">
+      <div class="section-head">
+        <div class="section-tag">Process</div>
+        <h2 class="section-title">How SkillSpring powers your career transition</h2>
+        <p class="section-subtitle">Four simple steps from student confusion to confident placement preparation.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 style="margin-top:0.5rem; font-size:1.15rem;">Set Up Your Student Profile</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem;">
+            Enter your college, engineering branch, academic year, target role, and current technical proficiencies.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 style="margin-top:0.5rem; font-size:1.15rem;">Review Skill Gap Analytics</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem;">
+            Inspect your calculated match score. See which tools you have mastered and exactly which frameworks are missing.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 style="margin-top:0.5rem; font-size:1.15rem;">Execute Your Weekly Roadmap</h3>
+          <p class="text-sm text-muted" style="margin-top:0.5rem;">
+            Follow structured weekly modules, build deployable capstone projects, and tick off tasks as you learn.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits-section">
+      <div class="benefits-grid">
+        <div>
+          <div class="section-tag">Student Benefits</div>
+          <h2 class="section-title" style="margin-bottom:1rem;">Built for students who want real interview calls</h2>
+          <p class="text-muted" style="line-height:1.6;">
+            College placement rounds evaluate hands-on problem solving, architectural comprehension, and practical git habits. SkillSpring ensures your resume stands out from hundreds of identical applicants.
+          </p>
+
+          <div class="benefits-list">
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div>
+                <strong style="color:var(--text-main);">Eliminate Tutorial Hell</strong>
+                <p class="text-sm text-muted">Focus strictly on prioritized topics instead of watching endless video courses.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div>
+                <strong style="color:var(--text-main);">Resume-Ready Capstones</strong>
+                <p class="text-sm text-muted">Ship production-grade code with database indexing, APIs, and Docker configurations.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">✓</div>
+              <div>
+                <strong style="color:var(--text-main);">Adapts to Your Exam Schedule</strong>
+                <p class="text-sm text-muted">Adjust your weekly hour commitments dynamically during semester exams or hackathons.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:2rem; background:#FFFFFF; border:1px solid var(--border-light); box-shadow:var(--shadow-lg);">
+          <span class="badge badge-indigo" style="margin-bottom:1rem;">Start Immediately</span>
+          <h3 style="margin-bottom:0.75rem;">Join thousands of ambitious engineering students</h3>
+          <p class="text-sm text-muted" style="margin-bottom:1.5rem; line-height:1.6;">
+            Gain instant access to roadmaps, interactive skill gap tools, and personalized study schedules.
+          </p>
+          <a href="signup.html" class="btn btn-primary" style="width:100%; margin-bottom:0.75rem;">
+            Create Free Account
+          </a>
+          <a href="dashboard.html" class="btn btn-outline" style="width:100%;">
+            Explore Interactive Demo
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="brand-logo" style="margin-bottom:1rem;">
+            <span class="brand-logo-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </span>
+            <span>SkillSpring</span>
+          </a>
+          <p class="text-sm text-muted" style="max-width:320px; line-height:1.6;">
+            SkillSpring is the AI-powered career roadmap and skill gap analytics platform built specifically for college engineers and aspiring developers.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <div class="footer-links">
+            <a href="careers.html">Career Explorer</a>
+            <a href="skill-gap.html">Skill Gap Analysis</a>
+            <a href="roadmap.html">Learning Roadmaps</a>
+            <a href="recommendations.html">AI Recommendations</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Student Tools</h5>
+          <div class="footer-links">
+            <a href="dashboard.html">Student Dashboard</a>
+            <a href="profile.html">Skill Profile</a>
+            <a href="progress.html">Progress Tracker</a>
+            <a href="settings.html">Account Settings</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Account</h5>
+          <div class="footer-links">
+            <a href="login.html">Sign In</a>
+            <a href="signup.html">Register Account</a>
+            <a href="dashboard.html">Demo Workspace</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 SkillSpring Platform. All rights reserved.</div>
+        <div style="display:flex; gap:1.5rem;">
+          <a href="#" class="text-muted">Privacy Policy</a>
+          <a href="#" class="text-muted">Terms of Service</a>
+          <a href="#" class="text-muted">Academic Integrity</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
