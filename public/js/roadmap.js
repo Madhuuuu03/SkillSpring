@@ -28,9 +28,14 @@
         if (!select) return;
 
         const careers = window.SkillSpringStore.getCareers();
+        const profile = window.SkillSpringStore.getProfile();
 
-        if (!careers.some(career => career.id === currentCareerId)) {
-          const profile = window.SkillSpringStore.getProfile();
+        // Follow the backend-synchronized profile career unless the URL
+        // explicitly requests a different career.
+        if (!paramCareer && profile.careerId &&
+            careers.some(career => career.id === profile.careerId)) {
+          currentCareerId = profile.careerId;
+        } else if (!careers.some(career => career.id === currentCareerId)) {
           currentCareerId = careers.some(career => career.id === profile.careerId)
             ? profile.careerId
             : (careers[0]?.id || '');
