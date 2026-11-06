@@ -129,7 +129,12 @@ def clean_json_string(text: str) -> str:
         text = match.group(1).strip()
     return text
 
-def call_gemini_api(prompt: str, api_key: str, model: str) -> Dict[str, Any]:
+def call_gemini_api(
+    prompt: str,
+    api_key: str,
+    model: str,
+    system_instruction: Optional[str] = None
+) -> Dict[str, Any]:
     """
     Make an HTTP POST request to the Google Gemini Generative Language REST API.
     Returns parsed JSON dictionary.
@@ -144,7 +149,7 @@ def call_gemini_api(prompt: str, api_key: str, model: str) -> Dict[str, Any]:
             }
         ],
         "systemInstruction": {
-            "parts": [{"text": SYSTEM_INSTRUCTION}]
+            "parts": [{"text": system_instruction or SYSTEM_INSTRUCTION}]
         },
         "generationConfig": {
             "temperature": 0.2,
@@ -762,4 +767,232 @@ def generate_roadmap_advice(
             "provider": "heuristic_fallback",
             "notice": error_msg,
             "advisory": generate_heuristic_roadmap_advice(gap_data, roadmap_progress, error_msg)
+        }
+
+
+# ==============================================================================
+# AI Career Roadmap Generator
+# ==============================================================================
+
+ROADMAP_GENERATOR_SYSTEM_INSTRUCTION = """
+You are SkillSpring's career learning roadmap generator.
+
+Create a practical six-week learning roadmap using ONLY the supplied career
+catalogue and verified student skill-gap information.
+
+STRICT RULES:
+1. Use the selected career and its verified required skills.
+2. Prioritize missing and improving skills, especially Critical and High importance.
+3. Do not claim the student has skills that are not in their verified profile.
+4. Respect the student's declared weekly study hours.
+5. Create exactly six sequential weekly milestones.
+6. Each milestone must contain a title, estimated_hours, topics, project_title,
+   and 3 to 5 actionable tasks.
+7. Keep tasks realistic for a college student.
+8. Do not invent certifications, job guarantees, salary outcomes, or market statistics.
+9. Return valid JSON only, with this exact top-level structure:
+   {"milestones": [...]}
+10. Topics must be an array of short strings. Tasks must be an array of strings.
+"""
+
+
+def _roadmap_text(value, max_length=180):
+    """Normalize generated text and reject empty or excessively long values."""
+    if not isinstance(value, str):
+        return None
+
+    value = re.sub(r'<[^>]*>', '', value)
+    value = re.sub(r'\s+', ' ', value).strip()
+
+    if not value or len(value) > max_length:
+        return None
+
+    return value
+
+
+def validate_generated_roadmap(result):
+    """Validate the structure and content limits of a generated roadmap."""
+    if not isinstance(result, dict):
+        raise ValueError("Roadmap response must be a JSON object.")
+
+    milestones = result.get("milestones")
+
+    if not isinstance(milestones, list) or len(milestones) != 6:
+        raise ValueError("Roadmap must contain exactly six milestones.")
+
+    validated = []
+
+    for index, milestone in enumerate(milestones, start=1):
+        if not isinstance(milestone, dict):
+            raise ValueError(f"Week {index} must be an object.")
+
+        title = _roadmap_text(milestone.get("title"), 120)
+        estimated_hours = _roadmap_text(milestone.get("estimated_hours"), 40)
+        project_title = _roadmap_text(milestone.get("project_title"), 120)
+
+        topics = milestone.get("topics")
+        tasks = milestone.get("tasks")
+
+        if not title or not estimated_hours or not project_title:
+            raise ValueError(f"Week {index} has missing or invalid fields.")
+
+        if not isinstance(topics, list) or not 2 <= len(topics) <= 5:
+            raise ValueError(f"Week {index} must contain 2 to 5 topics.")
+
+        if not isinstance(tasks, list) or not 3 <= len(tasks) <= 5:
+            raise ValueError(f"Week {index} must contain 3 to 5 tasks.")
+
+        clean_topics = [_roadmap_text(item, 100) for item in topics]
+        clean_tasks = [_roadmap_text(item, 220) for item in tasks]
+
+        if any(item is None for item in clean_topics + clean_tasks):
+            raise ValueError(f"Week {index} contains invalid topic or task text.")
+
+        validated.append({
+            "week_number": index,
+            "title": title,
+            "estimated_hours": estimated_hours,
+            "topics": clean_topics,
+            "project_title": project_title,
+            "tasks": clean_tasks
+        })
+
+    return validated
+
+
+def generate_heuristic_career_roadmap(gap_data):
+    """
+    Generate a deterministic six-week roadmap from verified career skills.
+    No career-specific skills are invented by this fallback.
+    """
+    career = gap_data.get("career", {})
+    student = gap_data.get("student", {})
+
+    career_title = career.get("title", "Selected Career")
+    weekly_hours = student.get("weekly_hours", 12)
+
+    try:
+        weekly_hours = max(1, min(80, int(weekly_hours)))
+    except (TypeError, ValueError):
+        weekly_hours = 12
+
+    prioritized = gap_data.get("prioritized_gaps", [])
+    improving = gap_data.get("improving_skills", [])
+    missing = gap_data.get("missing_skills", [])
+    matched = gap_data.get("matched_skills", [])
+
+    focus_skills = []
+
+    for item in prioritized + missing + improving + matched:
+        name = item.get("name") if isinstance(item, dict) else None
+
+        if isinstance(name, str) and name.strip():
+            if name.strip().lower() not in [s.lower() for s in focus_skills]:
+                focus_skills.append(name.strip())
+
+    if not focus_skills:
+        focus_skills = [career_title]
+
+    milestones = []
+
+    for week in range(1, 7):
+        focus = focus_skills[(week - 1) % len(focus_skills)]
+
+        milestones.append({
+            "week_number": week,
+            "title": f"Week {week}: Develop {focus}",
+            "estimated_hours": f"{weekly_hours} hours",
+            "topics": [
+                focus,
+                "Practical exercises",
+                "Applied learning"
+            ],
+            "project_title": f"{career_title} portfolio work: {focus}",
+            "tasks": [
+                f"Study the fundamental concepts and documentation for {focus}.",
+                f"Complete practical exercises applying {focus}.",
+                f"Build and document a small portfolio deliverable using {focus}."
+            ]
+        })
+
+    return milestones
+
+
+def build_career_roadmap_prompt(gap_data):
+    """Build a Gemini prompt using verified career and student information."""
+    career = gap_data.get("career", {})
+    student = gap_data.get("student", {})
+
+    context = {
+        "career": {
+            "title": career.get("title"),
+            "category": career.get("category"),
+            "description": career.get("description")
+        },
+        "student": {
+            "branch": student.get("branch"),
+            "academic_year": student.get("academic_year"),
+            "weekly_hours": student.get("weekly_hours", 12),
+            "interests": student.get("interests", "")
+        },
+        "readiness_percentage": gap_data.get("readiness_percentage", 0),
+        "matched_skills": gap_data.get("matched_skills", []),
+        "improving_skills": gap_data.get("improving_skills", []),
+        "missing_skills": gap_data.get("missing_skills", []),
+        "prioritized_gaps": gap_data.get("prioritized_gaps", [])
+    }
+
+    return (
+        "Generate a personalized six-week career learning roadmap from "
+        "the following verified SkillSpring data.\n\n"
+        "Return exactly six milestones using the required JSON schema.\n"
+        "Allocate realistic work according to weekly_hours. Prioritize "
+        "the supplied prioritized_gaps. Include practical tasks and a "
+        "small portfolio deliverable in every week.\n\n"
+        f"VERIFIED STUDENT AND CAREER DATA:\n{json.dumps(context, ensure_ascii=False, default=str)}"
+    )
+
+
+def generate_career_roadmap(gap_data):
+    """
+    Main entry point for the separate AI Career Roadmap Generator.
+    Uses Gemini when configured and validated heuristic fallback otherwise.
+    """
+    api_key, model = get_gemini_config()
+
+    if not api_key:
+        return {
+            "provider": "heuristic_fallback",
+            "notice": "Gemini API key is not configured. Generated using verified career skill data.",
+            "milestones": generate_heuristic_career_roadmap(gap_data)
+        }
+
+    try:
+        prompt = build_career_roadmap_prompt(gap_data)
+
+        ai_result = call_gemini_api(
+            prompt,
+            api_key,
+            model,
+            system_instruction=ROADMAP_GENERATOR_SYSTEM_INSTRUCTION
+        )
+
+        milestones = validate_generated_roadmap(ai_result)
+
+        return {
+            "provider": f"gemini ({model})",
+            "notice": None,
+            "milestones": milestones
+        }
+
+    except Exception as error:
+        notice = (
+            "Gemini roadmap generation was unavailable or returned an "
+            f"invalid response. Using verified skill data instead. ({str(error)[:250]})"
+        )
+
+        return {
+            "provider": "heuristic_fallback",
+            "notice": notice,
+            "milestones": generate_heuristic_career_roadmap(gap_data)
         }

@@ -11,7 +11,7 @@ enforces parameterized queries, and provides foundational REST endpoints.
 
 
 import os
-
+import json
 import sys
 
 
@@ -42,7 +42,7 @@ from database_postgres import (
 
     toggle_user_task, get_user_roadmap_with_progress,
 
-    calculate_skill_gap,
+    calculate_skill_gap, save_generated_roadmap,
 
     add_user_recommended_project, get_user_recommended_projects, delete_user_recommended_project,
 
@@ -50,7 +50,7 @@ from database_postgres import (
 
 )
 
-from ai_service import generate_ai_recommendations, generate_roadmap_advice, load_env_file
+from ai_service import generate_ai_recommendations, generate_roadmap_advice, generate_career_roadmap, load_env_file
 
 
 
@@ -489,53 +489,36 @@ def get_skills():
 
 
 @app.route('/api/roadmap/<career_id>', methods=['GET'])
-
 def get_roadmap(career_id):
-
     """
-
-    GET /api/roadmap/<career_id>
-
-    Retrieve ordered weekly roadmap milestones and tasks for a specific career track.
-
+    Retrieve the current user's personalized roadmap,
+    falling back to a shared career template.
+    Anonymous visitors can access shared templates only.
     """
+    user_id = session.get('user_id') or 0
 
-    milestones = query_db(
+    roadmap_data = get_user_roadmap_with_progress(user_id, career_id)
 
-        "SELECT id, career_id, week_number, title, estimated_hours, topics, project_title FROM roadmap_milestones WHERE career_id = %s ORDER BY week_number ASC;",
+    if not roadmap_data:
+        return jsonify({
+            "error": "Roadmap not found for career",
+            "career_id": career_id
+        }), 404
 
-        (career_id,)
+    milestones = roadmap_data.get("milestones", [])
 
-    )
+    for milestone in milestones:
+        try:
+            topics = milestone.get("topics") or []
+            milestone["topics"] = (
+                json.loads(topics)
+                if isinstance(topics, str)
+                else topics
+            )
+        except (TypeError, ValueError):
+            milestone["topics"] = []
 
-    if not milestones:
-
-        return jsonify({"error": "Roadmap not found for career", "career_id": career_id}), 404
-
-
-
-    result = []
-
-    for m in milestones:
-
-        m_dict = dict(m)
-
-        tasks = query_db(
-
-            "SELECT id, task_text as text, sort_order FROM roadmap_tasks WHERE milestone_id = %s ORDER BY sort_order ASC;",
-
-            (m_dict['id'],)
-
-        )
-
-        m_dict['tasks'] = [dict(t) for t in tasks]
-
-        result.append(m_dict)
-
-
-
-    return jsonify({"career_id": career_id, "milestones": result, "total_weeks": len(result)})
-
+    return jsonify(roadmap_data), 200
 
 
 @app.route('/api/profile/demo', methods=['GET'])
@@ -965,24 +948,14 @@ def update_current_profile():
 def get_career_roadmap_progress(career_id):
 
     """
-
     GET /api/roadmap/<career_id>/progress
 
-    Retrieve weekly milestones and tasks with the user's completion status.
-
-    Falls back to demo user if not logged in.
-
+    Retrieve the authenticated user's personalized roadmap,
+    falling back to a shared template. Anonymous visitors can
+    access shared templates only.
     """
 
-    user_id = session.get('user_id')
-
-    if not user_id:
-
-        demo = get_user_by_email('aarav.sharma@college.edu')
-
-        user_id = demo['id'] if demo else 1
-
-
+    user_id = session.get('user_id') or 0
 
     roadmap = get_user_roadmap_with_progress(user_id, career_id)
 
@@ -1245,6 +1218,108 @@ def get_roadmap_advisor():
 
 
 # ==============================================================================
+
+@app.route('/api/ai/roadmap-generator', methods=['POST'])
+@login_required
+def generate_ai_roadmap():
+    """Generate a six-week roadmap only when one does not already exist."""
+    user_id = session['user_id']
+    data = request.get_json(silent=True) or {}
+
+    career_id = data.get('career_id') or data.get('careerId')
+
+    if not career_id:
+        user_profile = get_user_full_profile(user_id)
+        career_id = (
+            user_profile.get('profile', {}).get('career_id')
+            if user_profile else None
+        )
+
+    if not career_id or not str(career_id).strip():
+        return jsonify({
+            "success": False,
+            "error": "Please select a career in your profile first."
+        }), 400
+
+    career_id = str(career_id).strip()
+
+    career = query_db(
+        "SELECT id, title FROM careers WHERE id = %s;",
+        (career_id,),
+        one=True
+    )
+
+    if not career:
+        return jsonify({
+            "success": False,
+            "error": "The selected career could not be found."
+        }), 404
+
+    existing = query_db(
+        """
+        SELECT id
+        FROM roadmap_milestones
+        WHERE user_id = %s AND career_id = %s
+        LIMIT 1;
+        """,
+        (user_id, career_id),
+        one=True
+    )
+
+    if existing:
+        return jsonify({
+            "success": True,
+            "generated": False,
+            "already_exists": True,
+            "career_id": career_id,
+            "career_title": career['title'],
+            "notice": "A roadmap already exists. Your existing roadmap and progress have been preserved."
+        }), 200
+
+    gap_data, error = calculate_skill_gap(user_id, career_id)
+    if error:
+        return jsonify({"success": False, "error": error}), 400
+
+    ai_result = generate_career_roadmap(gap_data)
+    milestones = ai_result.get("milestones")
+
+    if not isinstance(milestones, list) or len(milestones) != 6:
+        return jsonify({
+            "success": False,
+            "error": "The generator did not return a valid six-week roadmap."
+        }), 502
+
+    saved = save_generated_roadmap(user_id, career_id, milestones)
+
+    if saved.get("reason") == "already_exists":
+        return jsonify({
+            "success": True,
+            "generated": False,
+            "already_exists": True,
+            "career_id": career_id,
+            "career_title": career['title'],
+            "notice": "A roadmap was created by another request. The existing roadmap has been preserved."
+        }), 200
+
+    if not saved.get("created"):
+        return jsonify({
+            "success": False,
+            "error": "The generated roadmap could not be saved.",
+            "reason": saved.get("reason")
+        }), 500
+
+    return jsonify({
+        "success": True,
+        "generated": True,
+        "already_exists": False,
+        "career_id": career_id,
+        "career_title": career['title'],
+        "provider": ai_result.get("provider", "heuristic_fallback"),
+        "notice": ai_result.get("notice"),
+        "milestones": saved["milestones"],
+        "total_weeks": saved["total_weeks"],
+        "total_tasks": saved["total_tasks"]
+    }), 201
 
 # Recommended Projects & Synced Study Plans Endpoints
 
