@@ -2,7 +2,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.1-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Neon PostgreSQL](https://img.shields.io/badge/Neon-PostgreSQL-00E599?style=for-the-badge&logo=postgresql&logoColor=white)](https://neon.tech/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
@@ -36,7 +36,7 @@ Undergraduate computer science and engineering students frequently encounter thr
 
 - **Objective 1 — Profile & Competency Management:** Enable students to maintain an academic profile with fine-grained skill proficiency tracking (10% to 100%) and committed weekly study hours.
 - **Objective 2 — Quantitative Gap Analysis:** Calculate an objective Career Readiness Percentage ($0\% - 100\%$) and categorize skills into *Strong Skills*, *Developing Skills*, and *Critical Missing Gaps* using industry weights.
-- **Objective 3 — Actionable 6-Week Roadmaps:** Deliver chronological weekly milestones with interactive task checkboxes, real-time progress updates, and SQLite database persistence.
+- **Objective 3 — Actionable 6-Week Roadmaps:** Deliver chronological weekly milestones with interactive task checkboxes, real-time progress updates, and Neon PostgreSQL database persistence.
 - **Objective 4 — Transparent Advisory:** Provide personalized weekly guidance with full provider transparency, explicitly distinguishing between verified heuristic recommendations and Gemini-assisted advice.
 - **Objective 5 — Roadmap Synchronization:** Enable students to save recommended projects and synchronize adaptive weekly study plans directly into their persistent roadmap view.
 - **Objective 6 — Robust Security & Data Isolation:** Enforce user-level data isolation, Werkzeug `scrypt` password hashing, path traversal protection, and strict static file whitelisting.
@@ -66,7 +66,7 @@ Provides curated competencies, required tools, and industry benchmarks across fo
 
 ### 🗺️ Interactive 6-Week Learning Roadmap
 - Chronological weekly progression with actionable tasks and verifiable checkpoints.
-- Checkbox persistence in SQLite and `localStorage` with real-time completion recalculation.
+- Checkbox persistence in Neon PostgreSQL and `localStorage` with real-time completion recalculation.
 - Dynamic roadmap progress indicator synchronized across the Dashboard and Progress Tracker.
 
 ### 💡 Career Roadmap Advisor
@@ -75,7 +75,7 @@ Provides curated competencies, required tools, and industry benchmarks across fo
 - **Component State Switcher:** Preview live recommendations, shimmer loading skeleton, empty state, and error handling states.
 
 ### 📌 Interactive Project & Study Plan Synchronization
-- **Add Recommended Project to Roadmap:** Saves recommended portfolio projects directly to the user's career roadmap, persisted in SQLite with duplicate prevention.
+- **Add Recommended Project to Roadmap:** Saves recommended portfolio projects directly to the user's career roadmap, persisted in Neon PostgreSQL with duplicate prevention.
 - **Sync Adaptive Weekly Study Plan:** Synchronizes weekday study blocks, weekend project milestones, and hourly allocations into the roadmap view.
 
 ### 📈 Progress Tracker & Analytics
@@ -90,9 +90,9 @@ Provides curated competencies, required tools, and industry benchmarks across fo
 | :--- | :--- | :--- |
 | **Frontend** | HTML5, Semantic CSS3, Vanilla JavaScript (ES6+) | Responsive UI, state management, client-side caching |
 | **Design System** | Custom SaaS CSS (`Inter` typography, CSS variables) | Slate/indigo aesthetic with clean micro-interactions |
-| **Backend** | Python 3.11, Flask 3.1, Werkzeug | REST APIs, static file routing, session security |
+| **Backend** | Python 3.12 (Vercel runtime), Flask 3.1, Werkzeug | REST APIs, static file routing, session security |
 | **Password Hashing** | Werkzeug `scrypt` (`scrypt:32768:8:1`) | Salted cryptographic key derivation for user credentials |
-| **Database** | SQLite 3 | Relational database with strict foreign key constraints |
+| **Database** | Neon PostgreSQL | Cloud-hosted relational database with 11 tables and foreign key constraints |
 | **Recommendation Engine** | Deterministic Heuristic Fallback Engine | **Verified working engine**: Weighted gaps, priority strips, and study plans |
 | **AI Integration (Optional)** | Google Gemini 2.5 Flash API | Optional cloud enhancement via `GEMINI_API_KEY` configuration |
 | **Static Dev Server** | Node.js (v24) `serve.js` | Zero-dependency hardened static file development server |
@@ -123,8 +123,8 @@ flowchart TD
         GeminiEngine["Google Gemini 2.5 Flash API<br/>(Optional via GEMINI_API_KEY)"]
     end
 
-    subgraph Storage ["Local Storage (Excluded from Git)"]
-        DB[(skillspring.db - SQLite 3)]
+    subgraph Storage ["Neon PostgreSQL (Production Database)"]
+        DB[(Neon PostgreSQL)]
         Tables["11 Relational Tables (FK Enforced)"]
     end
 
@@ -148,7 +148,7 @@ flowchart TD
 ```text
 SkillSpring/
 ├── app.py                      # Flask backend, static routing, session auth, API endpoints
-├── database.py                 # SQLite schema DDL, connection engine, seed data, CRUD queries
+├── database.py                 # Original SQLite implementation retained locally
 ├── ai_service.py               # Career Advisor engine (Deterministic fallback + optional Gemini)
 ├── test_backend.py             # Automated test suite (233 unit, integration & security tests)
 ├── run_backend.bat             # One-click Windows batch launcher for Flask server
@@ -184,13 +184,13 @@ SkillSpring/
 
 > [!NOTE]
 > **Local Database Files Excluded from Version Control:**
-> The SQLite database file (`skillspring.db`) and its backup (`skillspring.db.bak`) reside strictly in local storage and are excluded from Git through `.gitignore`. When the application is launched for the first time, `database.py:init_db()` automatically initializes the schema and baseline seed data locally.
+> The original SQLite database (`skillspring.db`) and its backups remain in local storage and are excluded from Git through `.gitignore`. They are retained as backups and are not the active production database. The production Flask application uses `database_postgres.py` to connect to Neon PostgreSQL through the `DATABASE_URL` environment variable. The production schema contains 11 tables, migrated and verified successfully. Database initialization is not performed automatically on every Vercel serverless cold start.
 
 ---
 
 ## 8. Database Design & Main Tables
 
-The SQLite database operates with strict foreign key constraints (`PRAGMA foreign_keys = ON;`) and stores user passwords as salted `scrypt` hashes.
+The production Neon PostgreSQL database uses relational tables and foreign key constraints. User passwords are stored as salted `scrypt` hashes. The original SQLite implementation also uses `PRAGMA foreign_keys = ON;` for its local database.
 
 ```mermaid
 erDiagram
@@ -425,9 +425,38 @@ python test_backend.py
 
 - **Project:** SkillSpring - AI-Powered Career & Skill Roadmap Platform
 - **Academic Context:** 2nd Year B.Tech Computer Science & Engineering Portfolio Project
-- **Architecture:** Client-Server Full-Stack Web Application (Flask + SQLite + Vanilla JS)
+- **Architecture:** Client-Server Full-Stack Web Application (Flask + Neon PostgreSQL + Vanilla JS)
 - **Status:** Active development & evaluation portfolio project (All rights reserved; proprietary educational project)
 
 ---
 
 *Engineered with precision for students aspiring to build impactful software engineering careers.*
+
+---
+
+## 16. Deployment (Vercel)
+
+SkillSpring is prepared for deployment using Vercel with the Flask Python application and Neon PostgreSQL database.
+
+### Production Runtime
+- **Hosting:** Vercel
+- **Python Runtime:** Python 3.12 (`.python-version`)
+- **Backend:** Flask (`app.py`)
+- **Database:** Neon PostgreSQL (`database_postgres.py`)
+- **Dependency Installation:** `requirements.txt`
+
+### Environment Variables
+
+Configure these variables in the Vercel project settings:
+
+| Variable | Purpose | Required |
+|---|---|---|
+| `DATABASE_URL` | Neon PostgreSQL connection string | Yes |
+| `SECRET_KEY` | Flask session security | Yes |
+| `GEMINI_API_KEY` | Optional Gemini AI integration | No |
+
+Never commit `.env` or expose environment variable values in the repository.
+
+### Deployment Status
+
+The SQLite-to-Neon migration and local Flask application verification have been completed. Vercel deployment and live production verification are separate remaining steps.

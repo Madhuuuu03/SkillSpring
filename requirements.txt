@@ -1,0 +1,5 @@
+# SkillSpring - Vercel Production Dependencies
+
+Flask>=3.0.0,<3.2.0
+Werkzeug>=3.0.0,<3.2.0
+psycopg[binary]>=3.2,<4.0
