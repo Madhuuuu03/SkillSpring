@@ -9,91 +9,1628 @@
 
   // Default Career Catalog
   const CAREERS_CATALOG = [
-    {
-      id: 'python-dev',
-      title: 'Python Developer',
-      category: 'Software Engineering',
-      level: 'Entry - Mid Level',
-      matchScore: 78,
-      avgSalary: '$85,000 / ₹12-16 LPA',
-      growthRate: '+24% YoY',
-      description: 'Design, develop, and deploy scalable backend services, APIs, and automation scripts using Python, modern web frameworks, and relational databases.',
-      requiredSkills: [
-        { name: 'Python', importance: 'Critical', weight: 20 },
-        { name: 'REST APIs', importance: 'High', weight: 15 },
-        { name: 'SQL Basics', importance: 'High', weight: 15 },
-        { name: 'Git & GitHub', importance: 'Core', weight: 10 },
-        { name: 'Data Structures', importance: 'High', weight: 15 },
-        { name: 'FastAPI / Django', importance: 'Critical', weight: 15 },
-        { name: 'Docker', importance: 'Medium', weight: 5 },
-        { name: 'PostgreSQL', importance: 'Medium', weight: 5 }
-      ],
-      suitableBranches: ['Computer Science', 'Information Technology', 'Electronics'],
-      topTools: ['FastAPI', 'Django', 'PostgreSQL', 'Docker', 'PyTest', 'Postman']
-    },
-    {
-      id: 'web-dev',
-      title: 'Web Developer (Full Stack)',
-      category: 'Web Development',
-      level: 'Entry - Mid Level',
-      matchScore: 62,
-      avgSalary: '$82,000 / ₹10-15 LPA',
-      growthRate: '+21% YoY',
-      description: 'Build interactive, responsive web applications across the client and server stack using contemporary JavaScript frameworks, CSS architectures, and Node.js.',
-      requiredSkills: [
-        { name: 'HTML5 & CSS3', importance: 'Core', weight: 15 },
-        { name: 'JavaScript', importance: 'Critical', weight: 20 },
-        { name: 'Git & GitHub', importance: 'Core', weight: 10 },
-        { name: 'REST APIs', importance: 'High', weight: 15 },
-        { name: 'React', importance: 'Critical', weight: 15 },
-        { name: 'Node.js', importance: 'High', weight: 10 },
-        { name: 'SQL Basics', importance: 'Medium', weight: 10 },
-        { name: 'TypeScript', importance: 'Medium', weight: 5 }
-      ],
-      suitableBranches: ['Computer Science', 'Information Technology', 'Any Engineering'],
-      topTools: ['React', 'Node.js', 'Tailwind CSS', 'TypeScript', 'Next.js', 'Vite']
-    },
-    {
-      id: 'data-analyst',
-      title: 'Data Analyst',
-      category: 'Data & Analytics',
-      level: 'Entry Level',
-      matchScore: 54,
-      avgSalary: '$78,000 / ₹9-14 LPA',
-      growthRate: '+28% YoY',
-      description: 'Transform raw data into meaningful business insights through statistical exploration, interactive dashboards, SQL modeling, and predictive reporting.',
-      requiredSkills: [
-        { name: 'Python', importance: 'High', weight: 15 },
-        { name: 'SQL Basics', importance: 'Critical', weight: 20 },
-        { name: 'Advanced SQL', importance: 'Critical', weight: 15 },
-        { name: 'Pandas & NumPy', importance: 'High', weight: 15 },
-        { name: 'PowerBI / Tableau', importance: 'Critical', weight: 15 },
-        { name: 'Statistics & Probability', importance: 'Core', weight: 10 },
-        { name: 'Data Visualization', importance: 'Medium', weight: 10 }
-      ],
-      suitableBranches: ['Computer Science', 'Data Science', 'Mathematics', 'Economics'],
-      topTools: ['SQL', 'Pandas', 'PowerBI', 'Tableau', 'Jupyter', 'Excel']
-    },
-    {
-      id: 'cloud-devops',
-      title: 'Cloud & DevOps Engineer',
-      category: 'Infrastructure & Cloud',
-      level: 'Junior - Associate',
-      matchScore: 41,
-      avgSalary: '$92,000 / ₹14-18 LPA',
-      growthRate: '+32% YoY',
-      description: 'Automate build, deployment, and infrastructure provisioning pipelines on AWS or GCP using containers, CI/CD, and Infrastructure as Code.',
-      requiredSkills: [
-        { name: 'Linux Basics', importance: 'Critical', weight: 20 },
-        { name: 'Git & GitHub', importance: 'Core', weight: 10 },
-        { name: 'Docker', importance: 'Critical', weight: 20 },
-        { name: 'AWS / Cloud Fundamentals', importance: 'Critical', weight: 20 },
-        { name: 'CI/CD Pipelines (GitHub Actions)', importance: 'High', weight: 15 },
-        { name: 'Python', importance: 'Medium', weight: 15 }
-      ],
-      suitableBranches: ['Computer Science', 'Information Technology', 'Telecommunication'],
-      topTools: ['Docker', 'AWS', 'GitHub Actions', 'Terraform', 'Linux', 'Kubernetes']
-    }
+      {
+          "id": "python-dev",
+          "title": "Python Developer",
+          "category": "Software Engineering",
+          "level": "Entry - Mid Level",
+          "matchScore": 78,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Design, develop, and deploy scalable backend services, APIs, and automation scripts using Python, modern web frameworks, and relational databases.",
+          "requiredSkills": [
+              {
+                  "name": "Python",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "REST APIs",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 10
+              },
+              {
+                  "name": "Data Structures",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "FastAPI / Django",
+                  "importance": "Critical",
+                  "weight": 15
+              },
+              {
+                  "name": "Docker",
+                  "importance": "Medium",
+                  "weight": 5
+              },
+              {
+                  "name": "PostgreSQL",
+                  "importance": "Medium",
+                  "weight": 5
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "FastAPI",
+              "Django",
+              "PostgreSQL",
+              "Docker",
+              "PyTest",
+              "Postman"
+          ]
+      },
+      {
+          "id": "web-dev",
+          "title": "Web Developer (Full Stack)",
+          "category": "Web Development",
+          "level": "Entry - Mid Level",
+          "matchScore": 62,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Build interactive, responsive web applications across the client and server stack using contemporary JavaScript frameworks, CSS architectures, and Node.js.",
+          "requiredSkills": [
+              {
+                  "name": "HTML5 & CSS3",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "JavaScript",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 10
+              },
+              {
+                  "name": "REST APIs",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "React",
+                  "importance": "Critical",
+                  "weight": 15
+              },
+              {
+                  "name": "Node.js",
+                  "importance": "High",
+                  "weight": 10
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "Medium",
+                  "weight": 10
+              },
+              {
+                  "name": "TypeScript",
+                  "importance": "Medium",
+                  "weight": 5
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Any Engineering"
+          ],
+          "topTools": [
+              "React",
+              "Node.js",
+              "Tailwind CSS",
+              "TypeScript",
+              "Next.js",
+              "Vite"
+          ]
+      },
+      {
+          "id": "data-analyst",
+          "title": "Data Analyst",
+          "category": "Data & Analytics",
+          "level": "Entry Level",
+          "matchScore": 54,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Transform raw data into meaningful business insights through statistical exploration, interactive dashboards, SQL modeling, and predictive reporting.",
+          "requiredSkills": [
+              {
+                  "name": "Python",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Advanced SQL",
+                  "importance": "Critical",
+                  "weight": 15
+              },
+              {
+                  "name": "Pandas & NumPy",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "PowerBI / Tableau",
+                  "importance": "Critical",
+                  "weight": 15
+              },
+              {
+                  "name": "Statistics & Probability",
+                  "importance": "Core",
+                  "weight": 10
+              },
+              {
+                  "name": "Data Visualization",
+                  "importance": "Medium",
+                  "weight": 10
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Data Science",
+              "Mathematics",
+              "Economics"
+          ],
+          "topTools": [
+              "SQL",
+              "Pandas",
+              "PowerBI",
+              "Tableau",
+              "Jupyter",
+              "Excel"
+          ]
+      },
+      {
+          "id": "cloud-devops",
+          "title": "Cloud & DevOps Engineer",
+          "category": "Infrastructure & Cloud",
+          "level": "Junior - Associate",
+          "matchScore": 41,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Automate build, deployment, and infrastructure provisioning pipelines on AWS or GCP using containers, CI/CD, and Infrastructure as Code.",
+          "requiredSkills": [
+              {
+                  "name": "Linux Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 10
+              },
+              {
+                  "name": "Docker",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "AWS / Cloud Fundamentals",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "CI/CD Pipelines (GitHub Actions)",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Python",
+                  "importance": "Medium",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Telecommunication"
+          ],
+          "topTools": [
+              "Docker",
+              "AWS",
+              "GitHub Actions",
+              "Terraform",
+              "Linux",
+              "Kubernetes"
+          ]
+      },
+      {
+          "id": "java-dev",
+          "title": "Java Developer",
+          "category": "Software Engineering",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Develop Java applications and backend services using object-oriented design, modern Java frameworks, databases and testing.",
+          "requiredSkills": [
+              {
+                  "name": "Java",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "OOP",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Spring Boot",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "REST APIs",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Java",
+              "Spring Boot",
+              "Maven",
+              "PostgreSQL"
+          ]
+      },
+      {
+          "id": "backend-dev",
+          "title": "Backend Developer",
+          "category": "Software Engineering",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Build secure and scalable server-side applications, APIs, data models and integrations.",
+          "requiredSkills": [
+              {
+                  "name": "Python",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Node.js",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "REST APIs",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Authentication & Authorization",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Node.js",
+              "FastAPI",
+              "Django",
+              "PostgreSQL"
+          ]
+      },
+      {
+          "id": "frontend-dev",
+          "title": "Frontend Developer",
+          "category": "Web Development",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Create accessible, responsive user interfaces using modern JavaScript frameworks and web technologies.",
+          "requiredSkills": [
+              {
+                  "name": "HTML5 & CSS3",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "JavaScript",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "React",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "TypeScript",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Responsive Web Design",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "React",
+              "TypeScript",
+              "Vite",
+              "Tailwind CSS"
+          ]
+      },
+      {
+          "id": "android-dev",
+          "title": "Android Developer",
+          "category": "Software Engineering",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Develop Android applications with modern mobile development practices, APIs and persistent storage.",
+          "requiredSkills": [
+              {
+                  "name": "Kotlin",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Java",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Android SDK",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Jetpack Compose",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "REST APIs",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Android Studio",
+              "Kotlin",
+              "Jetpack Compose",
+              "Firebase"
+          ]
+      },
+      {
+          "id": "ai-ml-engineer",
+          "title": "AI/ML Engineer",
+          "category": "AI & Data Science",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Develop and evaluate machine learning systems, data pipelines and deployable model services.",
+          "requiredSkills": [
+              {
+                  "name": "Python",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Machine Learning",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Statistics & Probability",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Pandas & NumPy",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Deep Learning",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Model Evaluation",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Python",
+              "Scikit-learn",
+              "TensorFlow",
+              "PyTorch"
+          ]
+      },
+      {
+          "id": "data-scientist",
+          "title": "Data Scientist",
+          "category": "AI & Data Science",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Explore datasets, build statistical and machine learning models, and communicate evidence-based findings.",
+          "requiredSkills": [
+              {
+                  "name": "Python",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Statistics & Probability",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Pandas & NumPy",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Machine Learning",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Data Visualization",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Python",
+              "Jupyter",
+              "Scikit-learn",
+              "PowerBI"
+          ]
+      },
+      {
+          "id": "data-engineer",
+          "title": "Data Engineer",
+          "category": "AI & Data Science",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Build reliable data pipelines, transformations and storage systems for analytics and applications.",
+          "requiredSkills": [
+              {
+                  "name": "Python",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Advanced SQL",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "ETL & Data Pipelines",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Apache Spark",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Data Warehousing",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Python",
+              "Apache Spark",
+              "Airflow",
+              "PostgreSQL"
+          ]
+      },
+      {
+          "id": "bi-developer",
+          "title": "BI Developer",
+          "category": "Data & Analytics",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Design business intelligence data models, reports and dashboards for decision support.",
+          "requiredSkills": [
+              {
+                  "name": "SQL Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Advanced SQL",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "PowerBI / Tableau",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Data Modeling",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Data Visualization",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Excel",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "PowerBI",
+              "Tableau",
+              "SQL",
+              "Excel"
+          ]
+      },
+      {
+          "id": "it-business-analyst",
+          "title": "IT Business Analyst",
+          "category": "Data & Analytics",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Translate business needs into documented requirements, process models and software delivery outcomes.",
+          "requiredSkills": [
+              {
+                  "name": "Requirements Analysis",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Excel",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Data Visualization",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Agile & Scrum",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Communication",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Jira",
+              "Confluence",
+              "Excel",
+              "PowerBI"
+          ]
+      },
+      {
+          "id": "cybersecurity-analyst",
+          "title": "Cybersecurity Analyst",
+          "category": "Cybersecurity",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Assess security alerts, investigate risks and help protect systems, applications and information.",
+          "requiredSkills": [
+              {
+                  "name": "Networking Fundamentals",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Linux Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Security Fundamentals",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "SIEM Tools",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Python",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Incident Response",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Linux",
+              "Wireshark",
+              "Splunk",
+              "Python"
+          ]
+      },
+      {
+          "id": "soc-analyst",
+          "title": "SOC Analyst",
+          "category": "Cybersecurity",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Monitor security events, triage alerts and support incident investigation in a security operations team.",
+          "requiredSkills": [
+              {
+                  "name": "Networking Fundamentals",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Linux Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "SIEM Tools",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Log Analysis",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Incident Response",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Security Fundamentals",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Splunk",
+              "Microsoft Sentinel",
+              "Wireshark",
+              "Linux"
+          ]
+      },
+      {
+          "id": "security-engineer",
+          "title": "Security Engineer",
+          "category": "Cybersecurity",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Design and improve application, infrastructure and cloud security controls and automation.",
+          "requiredSkills": [
+              {
+                  "name": "Security Fundamentals",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Networking Fundamentals",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Linux Basics",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Python",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Cloud Security",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Secure Coding",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "AWS Security",
+              "Linux",
+              "Python",
+              "Burp Suite"
+          ]
+      },
+      {
+          "id": "qa-engineer",
+          "title": "QA Engineer",
+          "category": "Software Engineering",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Validate software quality through test planning, manual testing, defect reporting and API checks.",
+          "requiredSkills": [
+              {
+                  "name": "Software Testing",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Test Case Design",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Bug Tracking",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "API Testing",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Agile & Scrum",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Jira",
+              "Postman",
+              "TestRail",
+              "SQL"
+          ]
+      },
+      {
+          "id": "qa-automation",
+          "title": "QA Automation Engineer",
+          "category": "Software Engineering",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Build automated test suites and quality pipelines for web applications and APIs.",
+          "requiredSkills": [
+              {
+                  "name": "JavaScript",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Python",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Software Testing",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Automation Testing",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "API Testing",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Playwright",
+              "Selenium",
+              "PyTest",
+              "Postman"
+          ]
+      },
+      {
+          "id": "database-admin",
+          "title": "Database Administrator",
+          "category": "Software Engineering",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Maintain database reliability, access controls, backups, performance and recovery procedures.",
+          "requiredSkills": [
+              {
+                  "name": "SQL Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Advanced SQL",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "PostgreSQL",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Database Administration",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Linux Basics",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Database Security",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "PostgreSQL",
+              "MySQL",
+              "pgAdmin",
+              "Linux"
+          ]
+      },
+      {
+          "id": "network-engineer",
+          "title": "Network Engineer",
+          "category": "Infrastructure & Cloud",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Configure, monitor and troubleshoot enterprise networks and connectivity infrastructure.",
+          "requiredSkills": [
+              {
+                  "name": "Networking Fundamentals",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "TCP/IP",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Routing & Switching",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Linux Basics",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Network Security",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Network Troubleshooting",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Cisco Packet Tracer",
+              "Wireshark",
+              "Linux",
+              "Cisco IOS"
+          ]
+      },
+      {
+          "id": "cloud-engineer",
+          "title": "Cloud Engineer",
+          "category": "Infrastructure & Cloud",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Provision and maintain cloud infrastructure, services, identity controls and deployment environments.",
+          "requiredSkills": [
+              {
+                  "name": "AWS / Cloud Fundamentals",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Linux Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Networking Fundamentals",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Docker",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Terraform",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Python",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "AWS",
+              "Azure",
+              "Terraform",
+              "Docker"
+          ]
+      },
+      {
+          "id": "sre",
+          "title": "Site Reliability Engineer",
+          "category": "Infrastructure & Cloud",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Improve service reliability through monitoring, automation, incident response and scalable infrastructure.",
+          "requiredSkills": [
+              {
+                  "name": "Linux Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Python",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Docker",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Kubernetes",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "CI/CD Pipelines (GitHub Actions)",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Monitoring & Observability",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Kubernetes",
+              "Prometheus",
+              "Grafana",
+              "Terraform"
+          ]
+      },
+      {
+          "id": "platform-engineer",
+          "title": "Platform Engineer",
+          "category": "Infrastructure & Cloud",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Build internal developer platforms, reusable infrastructure and self-service deployment workflows.",
+          "requiredSkills": [
+              {
+                  "name": "Linux Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Docker",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Kubernetes",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Terraform",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "CI/CD Pipelines (GitHub Actions)",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Python",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Kubernetes",
+              "Terraform",
+              "Docker",
+              "GitHub Actions"
+          ]
+      },
+      {
+          "id": "ui-ux-designer",
+          "title": "UI/UX Designer",
+          "category": "Design & Product",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Research user needs and design usable digital experiences through wireframes, prototypes and testing.",
+          "requiredSkills": [
+              {
+                  "name": "UI Design",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "UX Research",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Wireframing & Prototyping",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Design Systems",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Accessibility",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Usability Testing",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Figma",
+              "FigJam",
+              "Adobe XD"
+          ]
+      },
+      {
+          "id": "product-designer",
+          "title": "Product Designer",
+          "category": "Design & Product",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Shape end-to-end product experiences by combining user research, interaction design and visual systems.",
+          "requiredSkills": [
+              {
+                  "name": "UI Design",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "UX Research",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Wireframing & Prototyping",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Design Systems",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Accessibility",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Product Thinking",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Figma",
+              "FigJam",
+              "Miro"
+          ]
+      },
+      {
+          "id": "technical-pm",
+          "title": "Technical Product Manager",
+          "category": "Design & Product",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Coordinate technical product strategy, requirements, prioritization and collaboration across engineering teams.",
+          "requiredSkills": [
+              {
+                  "name": "Product Management",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Requirements Analysis",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Agile & Scrum",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Data Analysis",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "API Fundamentals",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Communication",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Jira",
+              "Confluence",
+              "Figma",
+              "SQL"
+          ]
+      },
+      {
+          "id": "technical-support",
+          "title": "Technical Support Engineer",
+          "category": "Software Engineering",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Diagnose technical issues, support users and investigate application, operating system and network problems.",
+          "requiredSkills": [
+              {
+                  "name": "Linux Basics",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Networking Fundamentals",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "SQL Basics",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Python",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Troubleshooting",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Communication",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Linux",
+              "Postman",
+              "SQL",
+              "Ticketing Systems"
+          ]
+      },
+      {
+          "id": "blockchain-dev",
+          "title": "Blockchain Developer",
+          "category": "Emerging Technology",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Build and test blockchain applications, smart contracts and integrations with distributed networks.",
+          "requiredSkills": [
+              {
+                  "name": "JavaScript",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Solidity",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Blockchain Fundamentals",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Smart Contract Development",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Cryptography Basics",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Solidity",
+              "Hardhat",
+              "Ethereum",
+              "MetaMask"
+          ]
+      },
+      {
+          "id": "iot-embedded",
+          "title": "IoT & Embedded Systems Developer",
+          "category": "Emerging Technology",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Develop software for connected devices using embedded programming, sensors and communication protocols.",
+          "requiredSkills": [
+              {
+                  "name": "C",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "C++",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Embedded C",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Microcontrollers",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "IoT Protocols",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Electronics Fundamentals",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Arduino",
+              "ESP32",
+              "PlatformIO",
+              "Raspberry Pi"
+          ]
+      },
+      {
+          "id": "genai-dev",
+          "title": "Generative AI Application Developer",
+          "category": "Emerging Technology",
+          "level": "Entry - Mid Level",
+          "matchScore": null,
+          "avgSalary": "Not yet verified for India",
+          "growthRate": "Market data pending",
+          "description": "Build applications using language models, retrieval workflows, structured prompts and API integrations.",
+          "requiredSkills": [
+              {
+                  "name": "Python",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "REST APIs",
+                  "importance": "Critical",
+                  "weight": 20
+              },
+              {
+                  "name": "Prompt Engineering",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "LLM Application Development",
+                  "importance": "High",
+                  "weight": 15
+              },
+              {
+                  "name": "Vector Databases",
+                  "importance": "Core",
+                  "weight": 15
+              },
+              {
+                  "name": "Git & GitHub",
+                  "importance": "Core",
+                  "weight": 15
+              }
+          ],
+          "suitableBranches": [
+              "Computer Science",
+              "Information Technology",
+              "Electronics"
+          ],
+          "topTools": [
+              "Python",
+              "Gemini API",
+              "LangChain",
+              "ChromaDB"
+          ]
+      }
   ];
 
   // Default Roadmaps for Careers

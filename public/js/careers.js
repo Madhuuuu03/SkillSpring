@@ -105,13 +105,13 @@
           </p>
 
           <div style="background-color: var(--bg-card-subtle); padding: 0.75rem 1rem; border-radius: var(--radius-md); margin-bottom: 1.25rem;">
-            <div style="display:flex; justify-content:space-between; font-size:0.8125rem; margin-bottom: 0.25rem;">
-              <span style="color:var(--text-muted);">Avg. Entry Salary:</span>
-              <strong style="color:var(--text-main);">${career.avgSalary}</strong>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.75rem; font-size:0.8125rem; margin-bottom: 0.5rem;">
+              <span style="color:var(--text-muted);">India Salary Data:</span>
+              <span style="color:var(--text-muted); text-align:right;">${career.avgSalary === 'Not yet verified for India' ? 'Not yet verified' : career.avgSalary}</span>
             </div>
-            <div style="display:flex; justify-content:space-between; font-size:0.8125rem;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.75rem; font-size:0.8125rem;">
               <span style="color:var(--text-muted);">Market Demand:</span>
-              <span class="badge badge-emerald" style="padding:0.15rem 0.5rem; font-size:0.75rem;">${career.growthRate}</span>
+              <span style="color:var(--text-muted); text-align:right;">${career.growthRate === 'Market data pending' ? 'Data pending' : career.growthRate}</span>
             </div>
           </div>
 
