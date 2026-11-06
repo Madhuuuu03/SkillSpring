@@ -10,7 +10,43 @@
     loadCurrentSettings();
     initSaveForms();
     initDangerZone();
+
+    if (window.SkillSpringStore && typeof window.SkillSpringStore.subscribe === 'function') {
+      window.SkillSpringStore.subscribe((snapshot) => {
+        const profile = snapshot?.profile || window.SkillSpringStore.getProfile();
+        populateCareerOptions(profile);
+      });
+    }
   });
+
+  function populateCareerOptions(profile) {
+    const careerSelect = document.getElementById('settings-career-goal');
+    if (!careerSelect || !window.SkillSpringStore) return;
+
+    const careers = window.SkillSpringStore.getCareers();
+    const previousValue = careerSelect.value;
+
+    careerSelect.innerHTML = '';
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Select a career';
+    careerSelect.appendChild(placeholder);
+
+    careers.forEach(career => {
+      const option = document.createElement('option');
+      option.value = career.id;
+      option.textContent = career.title;
+      careerSelect.appendChild(option);
+    });
+
+    const validPrevious = careers.some(career => career.id === previousValue);
+    const selectedCareer = careers.find(career => career.id === profile?.careerId);
+
+    careerSelect.value = validPrevious
+      ? previousValue
+      : (selectedCareer?.id || '');
+  }
 
   function initSettingsTabs() {
     const tabs = document.querySelectorAll('.settings-tab-btn');
@@ -49,10 +85,7 @@
     setVal('settings-year', profile.academicYear);
 
     // Career Preferences
-    const careerSelect = document.getElementById('settings-career-goal');
-    if (careerSelect) {
-      careerSelect.value = profile.careerId || 'python-dev';
-    }
+    populateCareerOptions(profile);
 
     // Learning Goals
     setVal('settings-weekly-hours', profile.weeklyHours || 12);
@@ -93,7 +126,15 @@
       careerForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const careerId = document.getElementById('settings-career-goal')?.value;
-        const career = window.SkillSpringStore.getCareerById(careerId);
+        const career = window.SkillSpringStore.getCareers()
+          .find(item => item.id === careerId);
+
+        if (!career) {
+          if (window.SkillSpringToast) {
+            window.SkillSpringToast.show('Please select a valid target career.', 'warning');
+          }
+          return;
+        }
 
         window.SkillSpringStore.saveProfile({
           careerId: career.id,

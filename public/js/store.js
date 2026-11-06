@@ -504,6 +504,7 @@
   const STORAGE_KEYS = {
     PROFILE: 'skillspring_profile',
     ROADMAPS: 'skillspring_roadmaps',
+    ROADMAP_SOURCES: 'skillspring_roadmap_sources',
     ACTIVITY: 'skillspring_activity',
     APP_SETTINGS: 'skillspring_settings'
   };
@@ -512,6 +513,7 @@
   class SkillSpringStore {
     constructor() {
       this.listeners = [];
+      this.careers = [...CAREERS_CATALOG];
       this.init();
     }
 
@@ -535,8 +537,96 @@
         localStorage.setItem(STORAGE_KEYS.ACTIVITY, JSON.stringify(initialActivity));
       }
 
-      // Synchronize with backend on application launch
+      // Synchronize career catalogue and user data independently
+      this.syncCareers();
       this.syncWithBackend();
+    }
+
+    // Normalize JSON-formatted database lists and frontend arrays
+    parseCareerList(value) {
+      if (Array.isArray(value)) return value;
+      if (typeof value !== 'string' || !value.trim()) return [];
+
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return value.split(',').map(item => item.trim()).filter(Boolean);
+      }
+    }
+
+    // Convert Neon career records into the existing frontend structure
+    normalizeCareer(career) {
+      return {
+        id: String(career.id || ''),
+        title: career.title || 'Untitled Career',
+        category: career.category || 'Other',
+        level: career.level || 'Entry Level',
+        matchScore: Number(career.match_score_benchmark ?? career.matchScore ?? 0),
+        avgSalary: career.avg_salary ?? career.avgSalary ?? 'Not available',
+        growthRate: career.growth_rate ?? career.growthRate ?? 'Not available',
+        description: career.description || '',
+        suitableBranches: this.parseCareerList(
+          career.suitable_branches ?? career.suitableBranches
+        ),
+        topTools: this.parseCareerList(
+          career.top_tools ?? career.topTools
+        ),
+        requiredSkills: (
+          Array.isArray(career.requiredSkills) ? career.requiredSkills : []
+        ).map(skill => ({
+          name: skill.name || '',
+          importance: skill.importance || 'Core',
+          weight: Number(skill.weight) || 1,
+          benchmarkProficiency: Number(
+            skill.benchmark_proficiency ?? skill.benchmarkProficiency ?? 80
+          )
+        })).filter(skill => skill.name)
+      };
+    }
+
+    // Load the live career catalogue without interrupting profile sync
+    async syncCareers() {
+      if (typeof fetch === 'undefined') return;
+
+      try {
+        const response = await fetch('/api/careers');
+
+        if (!response.ok) {
+          throw new Error(`Career API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data.careers) || data.careers.length === 0) {
+          console.warn('Career API returned an empty catalogue. Using offline data.');
+          return;
+        }
+
+        const normalized = data.careers
+          .map(career => this.normalizeCareer(career))
+          .filter(career =>
+            career.id &&
+            career.title &&
+            career.requiredSkills.length > 0
+          );
+
+        const uniqueCareers = [
+          ...new Map(normalized.map(career => [career.id, career])).values()
+        ];
+
+        if (uniqueCareers.length === 0) {
+          console.warn('No valid career records received. Using offline data.');
+          return;
+        }
+
+        this.careers = uniqueCareers;
+        console.info(`Loaded ${uniqueCareers.length} careers from the backend.`);
+        this.notify();
+
+      } catch (error) {
+        console.warn('Career catalogue sync failed. Using offline data:', error);
+      }
     }
 
     async syncWithBackend() {
@@ -586,32 +676,54 @@
     }
 
     async syncRoadmapProgress(careerId) {
-      if (typeof fetch === 'undefined') return;
+      if (typeof fetch === 'undefined') return false;
+
       try {
         const cid = careerId || this.getProfile().careerId || 'python-dev';
-        const res = await fetch(`/api/roadmap/${cid}/progress`);
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data.milestones) {
-          const stored = localStorage.getItem(STORAGE_KEYS.ROADMAPS);
-          const roadmaps = stored ? JSON.parse(stored) : { ...ROADMAP_DATA };
-          roadmaps[cid] = data.milestones.map(m => ({
-            week: m.week_number,
-            title: m.title,
-            status: m.status,
-            hours: m.estimated_hours,
-            topics: typeof m.topics === 'string' ? JSON.parse(m.topics) : m.topics,
-            project: m.project_title,
-            tasks: (m.tasks || []).map(t => ({
-              id: t.id,
-              text: t.text,
-              completed: Boolean(t.completed)
-            }))
-          }));
-          localStorage.setItem(STORAGE_KEYS.ROADMAPS, JSON.stringify(roadmaps));
+        const res = await fetch(`/api/roadmap/${encodeURIComponent(cid)}/progress`);
+
+        if (!res.ok) {
+          console.warn('Roadmap sync failed with HTTP status:', res.status);
+          return false;
         }
+
+        const data = await res.json();
+
+        if (!data || !Array.isArray(data.milestones)) {
+          console.warn('Roadmap sync returned an invalid response.');
+          return false;
+        }
+
+        const sourceData = localStorage.getItem(STORAGE_KEYS.ROADMAP_SOURCES);
+        const sources = sourceData ? JSON.parse(sourceData) : {};
+
+        if (data.roadmap_source) {
+          sources[cid] = data.roadmap_source;
+          localStorage.setItem(STORAGE_KEYS.ROADMAP_SOURCES, JSON.stringify(sources));
+        }
+
+        const stored = localStorage.getItem(STORAGE_KEYS.ROADMAPS);
+        const roadmaps = stored ? JSON.parse(stored) : { ...ROADMAP_DATA };
+
+        roadmaps[cid] = data.milestones.map(m => ({
+          week: m.week_number,
+          title: m.title,
+          status: m.status,
+          hours: m.estimated_hours,
+          topics: typeof m.topics === 'string' ? JSON.parse(m.topics) : m.topics,
+          project: m.project_title,
+          tasks: (m.tasks || []).map(t => ({
+            id: t.id,
+            text: t.text,
+            completed: Boolean(t.completed)
+          }))
+        }));
+
+        localStorage.setItem(STORAGE_KEYS.ROADMAPS, JSON.stringify(roadmaps));
+        return true;
       } catch (e) {
-        // Safe offline fallback
+        console.warn('Roadmap synchronization failed:', e);
+        return false;
       }
     }
 
@@ -667,6 +779,7 @@
     resetProfile() {
       localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(DEFAULT_PROFILE));
       localStorage.setItem(STORAGE_KEYS.ROADMAPS, JSON.stringify(ROADMAP_DATA));
+      localStorage.setItem(STORAGE_KEYS.ROADMAP_SOURCES, JSON.stringify({}));
       this.notify();
       if (typeof fetch !== 'undefined') {
         fetch('/api/profile', {
@@ -679,11 +792,11 @@
 
     // Career Catalog Helpers
     getCareers() {
-      return CAREERS_CATALOG;
+      return this.careers;
     }
 
     getCareerById(id) {
-      return CAREERS_CATALOG.find(c => c.id === id) || CAREERS_CATALOG[0];
+      return this.careers.find(c => c.id === id) || this.careers[0];
     }
 
     getCurrentCareer() {
@@ -782,40 +895,75 @@
     }
 
     // Roadmap Helpers
+    getRoadmapSource(careerId) {
+      const cid = careerId || this.getProfile().careerId;
+
+      try {
+        const stored = localStorage.getItem(STORAGE_KEYS.ROADMAP_SOURCES);
+        const sources = stored ? JSON.parse(stored) : {};
+        return sources[cid] || (this.getRoadmap(cid).length ? 'unknown' : 'none');
+      } catch (e) {
+        return this.getRoadmap(cid).length ? 'unknown' : 'none';
+      }
+    }
+
     getRoadmap(careerId) {
-      const cid = careerId || this.getProfile().careerId || 'python-dev';
+      const cid = careerId || this.getProfile().careerId;
+
       try {
         const stored = localStorage.getItem(STORAGE_KEYS.ROADMAPS);
         const roadmaps = stored ? JSON.parse(stored) : ROADMAP_DATA;
-        return roadmaps[cid] || ROADMAP_DATA['python-dev'];
+        const roadmap = roadmaps?.[cid];
+
+        return Array.isArray(roadmap) ? roadmap : [];
       } catch (e) {
-        return ROADMAP_DATA['python-dev'];
+        console.warn('Unable to load roadmap from localStorage:', e);
+        return [];
       }
     }
 
     toggleRoadmapTask(careerId, taskId) {
-      const cid = careerId || this.getProfile().careerId || 'python-dev';
-      const stored = localStorage.getItem(STORAGE_KEYS.ROADMAPS);
-      const roadmaps = stored ? JSON.parse(stored) : { ...ROADMAP_DATA };
-      const currentList = roadmaps[cid] || ROADMAP_DATA['python-dev'];
+      const cid = careerId || this.getProfile().careerId;
+      let roadmaps;
 
-      let taskFound = false;
+      try {
+        const stored = localStorage.getItem(STORAGE_KEYS.ROADMAPS);
+        roadmaps = stored ? JSON.parse(stored) : { ...ROADMAP_DATA };
+      } catch (e) {
+        console.warn('Unable to load stored roadmaps:', e);
+        return { success: false, completedTasks: 0, totalTasks: 0 };
+      }
+
+      const currentList = roadmaps?.[cid];
+
+      if (!Array.isArray(currentList) || currentList.length === 0) {
+        return { success: false, completedTasks: 0, totalTasks: 0 };
+      }
+
+      const targetTask = currentList
+        .flatMap(week => Array.isArray(week.tasks) ? week.tasks : [])
+        .find(task => task.id === taskId);
+
+      if (!targetTask) {
+        return { success: false, completedTasks: 0, totalTasks: 0 };
+      }
+
+      targetTask.completed = !targetTask.completed;
+
       let totalTasks = 0;
       let completedTasks = 0;
 
       currentList.forEach(week => {
-        week.tasks.forEach(task => {
+        const tasks = Array.isArray(week.tasks) ? week.tasks : [];
+
+        tasks.forEach(task => {
           totalTasks++;
-          if (task.id === taskId) {
-            task.completed = !task.completed;
-            taskFound = true;
-          }
           if (task.completed) completedTasks++;
         });
 
-        // Update week status based on tasks
-        const weekCompleted = week.tasks.filter(t => t.completed).length;
-        if (weekCompleted === week.tasks.length) {
+        const weekCompleted = tasks.filter(task => task.completed).length;
+
+        if (weekCompleted === tasks.length) {
           week.status = 'completed';
         } else if (weekCompleted > 0) {
           week.status = 'in-progress';
@@ -827,14 +975,12 @@
       roadmaps[cid] = currentList;
       localStorage.setItem(STORAGE_KEYS.ROADMAPS, JSON.stringify(roadmaps));
 
-      // Update completed count in profile
       this.saveProfile({
         completedTasksCount: completedTasks
       });
 
       this.notify();
 
-      // Asynchronously persist task completion to SQLite backend
       if (typeof fetch !== 'undefined') {
         fetch('/api/roadmap/toggle-task', {
           method: 'POST',
@@ -854,13 +1000,16 @@
       let completedTasks = 0;
 
       roadmap.forEach(week => {
-        week.tasks.forEach(t => {
+        (Array.isArray(week.tasks) ? week.tasks : []).forEach(task => {
           totalTasks++;
-          if (t.completed) completedTasks++;
+          if (task.completed) completedTasks++;
         });
       });
 
-      const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+      const percentage = totalTasks > 0
+        ? Math.round((completedTasks / totalTasks) * 100)
+        : 0;
+
       return { totalTasks, completedTasks, percentage };
     }
 

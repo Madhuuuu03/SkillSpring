@@ -19,12 +19,133 @@
     currentCareerId = paramCareer || profile.careerId || 'python-dev';
 
     initCareerSelector();
+
+    // Refresh the selector when the dynamic career catalogue changes
+    if (window.SkillSpringStore &&
+        typeof window.SkillSpringStore.subscribe === 'function') {
+      window.SkillSpringStore.subscribe(() => {
+        const select = document.getElementById('roadmap-career-select');
+        if (!select) return;
+
+        const careers = window.SkillSpringStore.getCareers();
+
+        if (!careers.some(career => career.id === currentCareerId)) {
+          const profile = window.SkillSpringStore.getProfile();
+          currentCareerId = careers.some(career => career.id === profile.careerId)
+            ? profile.careerId
+            : (careers[0]?.id || '');
+        }
+
+        select.innerHTML = '';
+
+        careers.forEach(career => {
+          const option = document.createElement('option');
+          option.value = career.id;
+          option.textContent = `${career.title} Roadmap`;
+          option.selected = career.id === currentCareerId;
+          select.appendChild(option);
+        });
+
+        renderRoadmap();
+      });
+    }
+
     initFilterTabs();
     renderRoadmap();
     loadAdvisorGuidance();
     loadSyncedStudyPlan();
     loadSavedProjects();
   });
+
+  async function generateCareerRoadmap(button, statusElement) {
+    if (!button || button.disabled) return;
+
+    const careerId = currentCareerId;
+    button.disabled = true;
+    button.textContent = 'Generating roadmap...';
+
+    if (statusElement) {
+      statusElement.textContent = 'Analyzing your skill gaps and preparing your learning plan...';
+    }
+
+    try {
+      const response = await fetch('/api/ai/roadmap-generator', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ career_id: careerId })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || data.notice || 'Unable to generate the roadmap.');
+      }
+
+      if (typeof window.SkillSpringStore.syncRoadmapProgress !== 'function') {
+        throw new Error('Roadmap synchronization is unavailable. Please refresh the page.');
+      }
+
+      const syncSucceeded = await window.SkillSpringStore.syncRoadmapProgress(careerId);
+
+      if (currentCareerId !== careerId) return;
+
+      if (!syncSucceeded) {
+        const message = data.already_exists
+          ? 'Your existing roadmap is safe, but this page could not refresh it. Please refresh the page.'
+          : 'Your roadmap was created successfully, but this page could not load it. Please refresh the page.';
+
+        if (statusElement) {
+          statusElement.textContent = message;
+        }
+
+        button.disabled = false;
+        button.textContent = 'Try Again';
+
+        if (window.SkillSpringToast) {
+          window.SkillSpringToast.show(message, 'info');
+        }
+
+        return;
+      }
+
+      window.SkillSpringStore.notify();
+      renderRoadmap();
+
+      if (data.already_exists) {
+        if (window.SkillSpringToast) {
+          window.SkillSpringToast.show(
+            data.notice || 'An existing roadmap was preserved.',
+            'info'
+          );
+        }
+      } else {
+        if (window.SkillSpringToast) {
+          window.SkillSpringToast.show(
+            data.notice || 'Your AI career roadmap is ready!',
+            'success'
+          );
+        }
+
+        loadAdvisorGuidance();
+      }
+    } catch (error) {
+      console.error('AI roadmap generation failed:', error);
+
+      if (statusElement) {
+        statusElement.textContent = error.message || 'Something went wrong. Please try again.';
+      }
+
+      if (window.SkillSpringToast) {
+        window.SkillSpringToast.show(
+          error.message || 'Roadmap generation failed.',
+          'error'
+        );
+      }
+
+      button.disabled = false;
+      button.textContent = 'Try Again';
+    }
+  }
 
   async function loadAdvisorGuidance() {
     try {
@@ -59,12 +180,20 @@
     if (!select || !window.SkillSpringStore) return;
 
     const careers = window.SkillSpringStore.getCareers();
+    const profile = window.SkillSpringStore.getProfile();
+
+    if (!careers.some(career => career.id === currentCareerId)) {
+      currentCareerId = careers.some(career => career.id === profile.careerId)
+        ? profile.careerId
+        : (careers[0]?.id || '');
+    }
+
     select.innerHTML = '';
     careers.forEach(c => {
       const option = document.createElement('option');
       option.value = c.id;
       option.textContent = `${c.title} Roadmap`;
-      if (c.id === currentCareerId) option.selected = true;
+      option.selected = c.id === currentCareerId;
       select.appendChild(option);
     });
 
@@ -102,6 +231,7 @@
 
     const career = window.SkillSpringStore.getCareerById(currentCareerId);
     const weeks = window.SkillSpringStore.getRoadmap(currentCareerId);
+    const roadmapSource = window.SkillSpringStore.getRoadmapSource(currentCareerId);
     const stats = window.SkillSpringStore.getRoadmapStats(currentCareerId);
     const profile = window.SkillSpringStore.getProfile();
 
@@ -125,7 +255,33 @@
     const container = document.getElementById('roadmap-weeks-container');
     if (!container) return;
 
-    const filteredWeeks = weeks.filter(week => {
+    if (weeks.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <span style="font-size: 1.8rem;">&#128218;</span>
+          </div>
+          <h3 class="empty-state-title">Roadmap Not Available Yet</h3>
+          <p class="empty-state-desc">A learning roadmap for ${escapeHtml(career.title)} hasn't been added yet. Generate a personalized six-week roadmap based on your skill gaps and study hours.</p>
+          <button type="button" id="generate-roadmap-btn" class="btn btn-primary" style="margin-top:1rem;">
+            Generate AI Roadmap
+          </button>
+          <p id="roadmap-generator-status" class="text-sm text-muted" style="margin-top:0.75rem;" aria-live="polite"></p>
+        </div>
+      `;
+
+      const generateButton = document.getElementById('generate-roadmap-btn');
+      const statusElement = document.getElementById('roadmap-generator-status');
+
+      if (generateButton) {
+        generateButton.addEventListener('click', () => {
+          generateCareerRoadmap(generateButton, statusElement);
+        });
+      }
+
+      return;
+    }
+const filteredWeeks = weeks.filter(week => {
       if (activeFilter === 'completed') return week.status === 'completed';
       if (activeFilter === 'in-progress') return week.status === 'in-progress' || week.status === 'pending';
       return true;
@@ -145,6 +301,38 @@
     }
 
     container.innerHTML = '';
+
+    if (roadmapSource === 'shared_template') {
+      const banner = document.createElement('div');
+      banner.className = 'card';
+      banner.style.cssText = 'padding:1.25rem 1.5rem; margin-bottom:1.5rem; border:1px solid var(--primary-200); background:var(--bg-card-subtle);';
+      banner.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <strong style="color:var(--text-main);">Using a shared career roadmap</strong>
+            <p class="text-sm text-muted" style="margin:0.35rem 0 0;">Create your own six-week learning plan based on your skills, gaps, and study hours. Your current roadmap and progress will remain unchanged.</p>
+          </div>
+          <div>
+            <button type="button" id="generate-roadmap-btn" class="btn btn-primary">
+              Create My Personalized Roadmap
+            </button>
+            <p id="roadmap-generator-status" class="text-sm text-muted" style="margin:0.5rem 0 0;" aria-live="polite"></p>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(banner);
+
+      const generateButton = banner.querySelector('#generate-roadmap-btn');
+      const statusElement = banner.querySelector('#roadmap-generator-status');
+
+      if (generateButton) {
+        generateButton.addEventListener('click', () => {
+          generateCareerRoadmap(generateButton, statusElement);
+        });
+      }
+    }
+
     filteredWeeks.forEach(week => {
       const isCompleted = week.status === 'completed';
       const isInProgress = week.status === 'in-progress';
@@ -232,10 +420,40 @@
       checkboxes.forEach(cb => {
         cb.addEventListener('change', (e) => {
           const taskId = e.target.getAttribute('data-task-id');
-          window.SkillSpringStore.toggleRoadmapTask(currentCareerId, taskId);
-          if (window.SkillSpringToast) {
-            window.SkillSpringToast.show(e.target.checked ? 'Milestone marked as complete! 🎉' : 'Milestone reopened.', 'info');
+
+          try {
+            const result = window.SkillSpringStore.toggleRoadmapTask(
+              currentCareerId,
+              taskId
+            );
+
+            if (result && result.success) {
+              if (window.SkillSpringToast) {
+                window.SkillSpringToast.show(
+                  e.target.checked
+                    ? 'Milestone marked as complete!'
+                    : 'Milestone reopened.',
+                  'success'
+                );
+              }
+            } else {
+              if (window.SkillSpringToast) {
+                window.SkillSpringToast.show(
+                  'Unable to update this milestone. Please refresh and try again.',
+                  'warning'
+                );
+              }
+            }
+          } catch (error) {
+            console.error('Roadmap task update failed:', error);
+            if (window.SkillSpringToast) {
+              window.SkillSpringToast.show(
+                'Something went wrong while updating this milestone.',
+                'error'
+              );
+            }
           }
+
           renderRoadmap();
         });
       });

@@ -34,11 +34,38 @@
     return div.innerHTML;
   }
 
+  function populateCareerOptions(profile) {
+    const select = document.getElementById('profile-careerGoal');
+    if (!select || !window.SkillSpringStore) return;
+
+    const careers = window.SkillSpringStore.getCareers();
+
+    select.innerHTML = '';
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Select a career';
+    select.appendChild(placeholder);
+
+    careers.forEach(career => {
+      const option = document.createElement('option');
+      option.value = career.id;
+      option.textContent = career.title;
+      select.appendChild(option);
+    });
+
+    const selectedCareer =
+      careers.find(career => career.id === profile?.careerId) ||
+      careers.find(career => career.title === profile?.careerGoal);
+
+    select.value = selectedCareer ? selectedCareer.id : '';
+  }
+
   function populateFormFields(profile) {
     if (!profile) return;
 
     // Populate standard form fields
-    const fields = ['name', 'email', 'college', 'degree', 'branch', 'academicYear', 'careerGoal'];
+    const fields = ['name', 'email', 'college', 'degree', 'branch', 'academicYear'];
     fields.forEach(field => {
       const el = document.getElementById(`profile-${field}`);
       if (el && profile[field] !== undefined && profile[field] !== null) {
@@ -67,6 +94,7 @@
     if (!window.SkillSpringStore) return;
 
     const profile = window.SkillSpringStore.getProfile();
+    populateCareerOptions(profile);
     populateFormFields(profile);
 
     // Skills
@@ -86,6 +114,7 @@
 
       const profile = (snapshot && snapshot.profile) ? snapshot.profile : window.SkillSpringStore.getProfile();
       if (profile) {
+        populateCareerOptions(profile);
         populateFormFields(profile);
         currentSelectedSkills = [...(profile.skills || ['Python', 'Git & GitHub', 'SQL Basics'])];
         skillProficiencies = { ...(profile.skillProficiencies || {}) };
@@ -299,17 +328,23 @@
       const degree = document.getElementById('profile-degree')?.value;
       const branch = document.getElementById('profile-branch')?.value;
       const academicYear = document.getElementById('profile-academicYear')?.value;
-      const careerGoal = document.getElementById('profile-careerGoal')?.value;
+      const careerId = document.getElementById('profile-careerGoal')?.value;
+      const selectedCareer = window.SkillSpringStore?.getCareers()
+        .find(career => career.id === careerId);
+
+      if (!selectedCareer) {
+        if (window.SkillSpringToast) {
+          window.SkillSpringToast.show('Please select a valid target career.', 'warning');
+        }
+        return;
+      }
+
+      const careerGoal = selectedCareer.title;
       const weeklyHours = parseInt(document.getElementById('profile-hours')?.value || '12', 10);
       const interestsRaw = document.getElementById('profile-interests')?.value || '';
 
       const interests = interestsRaw.split(',').map(s => s.trim()).filter(Boolean);
 
-      // Determine careerId from careerGoal
-      let careerId = 'python-dev';
-      if (careerGoal && careerGoal.includes('Web')) careerId = 'web-dev';
-      else if (careerGoal && careerGoal.includes('Data')) careerId = 'data-analyst';
-      else if (careerGoal && careerGoal.includes('Cloud')) careerId = 'cloud-devops';
 
       const updated = {
         name: name || 'Student',

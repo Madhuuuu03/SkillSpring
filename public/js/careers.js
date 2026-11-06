@@ -12,6 +12,13 @@
     initFilters();
     initSearch();
     renderCareers();
+
+    // Refresh career cards whenever the store catalogue changes
+    if (window.SkillSpringStore) {
+      window.SkillSpringStore.subscribe(() => {
+        renderCareers();
+      });
+    }
   });
 
   function initFilters() {
